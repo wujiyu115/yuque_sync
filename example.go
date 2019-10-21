@@ -1,14 +1,11 @@
 package main
 
-import (
-	"encoding/json"
-	"github.com/wujiyu115/yuqueg"
-)
+import "github.com/wujiyu115/yuqueg"
 
 func main() {
 	l := yuqueg.L
-	yu := yuqueg.NewService("token")
-	d, err := yu.User.Get("")
+	// yu := yuqueg.NewService("token")
+	// d, err := yu.User.Get("")
 
 	// d, err := yu.Group.List("u22579")
 	// d, err := yu.Group.Get("zutzgg")
@@ -28,7 +25,6 @@ func main() {
 	// 	Role: 0,
 	// })
 	// d, err := yu.Group.RemoveUser("zutzgg", "helix")
-
 
 	// d, err := yu.Repo.List("u22579", "", nil)
 	// d, err := yu.Repo.Create("u22579", "", &CreateRepo{
@@ -64,10 +60,12 @@ func main() {
 	// })
 	// d, err := yu.Doc.Delete("u22579/xcd0mr", "2912350")
 
-	if err != nil {
-		l.Info(err)
-		return
-	}
-	jsonString, _ := json.Marshal(d)
-	l.Info(string(jsonString))
+	// if err != nil {
+	// 	l.Info(err)
+	// 	return
+	// }
+	// jsonString, _ := json.Marshal(d)
+	// l.Info(string(jsonString))
+	cfg := LoadConfig()
+	l.Info(cfg)
 }

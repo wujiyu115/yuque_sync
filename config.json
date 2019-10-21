@@ -1,0 +1,10 @@
+{
+    "postPath": "source/_posts/yuque1",
+    "cachePath": "yuque1.json",
+    "mdFormat": "title",
+    "token": "",
+    "login": "",
+    "repo": "",
+    "concurrency": 5,
+    "onlyPub": false
+}

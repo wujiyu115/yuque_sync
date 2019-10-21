@@ -1,0 +1,4 @@
+# Adapter
+## DownloadAdapter
+## HugoAdapter
+## HexoAdapter
