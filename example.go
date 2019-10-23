@@ -1,9 +1,7 @@
 package main
 
-import "github.com/wujiyu115/yuqueg"
-
 func main() {
-	l := yuqueg.L
+	// l := yuqueg.L
 	// yu := yuqueg.NewService("token")
 	// d, err := yu.User.Get("")
 
@@ -66,6 +64,5 @@ func main() {
 	// }
 	// jsonString, _ := json.Marshal(d)
 	// l.Info(string(jsonString))
-	cfg := LoadConfig()
-	l.Info(cfg)
+	DoAction()
 }
