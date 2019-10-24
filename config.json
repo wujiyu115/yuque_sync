@@ -3,8 +3,9 @@
     "cachePath": "yuque.json",
     "mdFormat": "Title",
     "token": "",
-    "login": "",
-    "repo": "",
+    "login": "u22579",
+    "repo": "xcd0mr",
+    "adapter": "markdown",
     "concurrency": 5,
     "onlyPub": true
 }

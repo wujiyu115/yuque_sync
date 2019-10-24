@@ -4,5 +4,6 @@ mdFormat: title
 token: ''
 login: ''
 repo: ''
+adapter: 'markdown'
 concurrency: 5
 onlyPub: false

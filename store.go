@@ -81,11 +81,13 @@ func (s *Store) WiteYuqueCache() error {
 	fp, err := os.OpenFile(s.CachePath, os.O_RDWR|os.O_CREATE, 0755)
 	if err != nil {
 		log.Fatal(err)
+		return err
 	}
 	defer fp.Close()
 	_, err = fp.Write(jsonStr)
 	if err != nil {
 		log.Fatal(err)
+		return err
 	}
 	return nil
 }

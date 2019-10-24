@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"path/filepath"
 	"time"
+	"os"
 
 	"github.com/wujiyu115/yuqueg"
 )
@@ -99,8 +100,29 @@ func (d *Downg) genPost(post yuqueg.DocDetail) {
 	}
 	title, errStr := ReflectStrVal(data, d.config.MdFormat)
 	if errStr != nil || len(title) == 0 {
-		L.Error(fmt.Sprintf("empty title: slug:%s,%s", data.Slug, d.config.PostPath))
+		L.Error(fmt.Sprintf("empty title: slug:%s,mdFormat:%s", data.Slug, d.config.MdFormat))
 		return
 	}
-	L.Info(postPath, title)
+	fun := AdapterMap[d.config.Adapter]
+	if fun == nil {
+		L.Error(fmt.Sprintf("empty adapter: slug:%s, adapter:%s", data.Slug, d.config.Adapter))
+		return
+	}
+	r, err1 := Call(fun, data)
+	if err1 != nil {
+		L.Error(fmt.Sprintf("call adapter.fail: slug:%s, adapter:%s", data.Slug, d.config.Adapter))
+		return
+	}
+	text := r[0].String()
+	postPath = filepath.Join(postPath, fmt.Sprintf("%s.md", title))
+	fp, err := os.OpenFile(postPath, os.O_RDWR|os.O_CREATE, 0755)
+	if err != nil {
+		L.Error(err)
+	}
+	defer fp.Close()
+	_, err := fp.Write(text)
+	if err != nil {
+		L.Error(err)
+	}
+	L.Info(postPath, title, text)
 }
