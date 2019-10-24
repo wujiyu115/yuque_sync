@@ -1,14 +1,9 @@
 package main
 
-var (
-	//Cfg base config
-	Cfg SyncConfig
-)
-
 //DoAction do
 func DoAction() {
-	Cfg = LoadConfig()
-	yuque := NewDowng(Cfg)
+	cfg := LoadConfig()
+	yuque := NewDowng(cfg)
 	yuque.fetchArticles()
 	yuque.Save()
 }

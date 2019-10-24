@@ -1,10 +1,10 @@
 {
-    "postPath": "source/_posts/yuque",
+    "postPath": "yuque",
     "cachePath": "yuque.json",
-    "mdFormat": "title",
+    "mdFormat": "Title",
     "token": "",
     "login": "",
     "repo": "",
     "concurrency": 5,
-    "onlyPub": false
+    "onlyPub": true
 }

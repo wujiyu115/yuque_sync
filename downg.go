@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"path/filepath"
 	"time"
 
 	"github.com/wujiyu115/yuqueg"
@@ -33,11 +35,12 @@ func NewDowng(config SyncConfig) *Downg {
 
 //FetchArticle one of fetch
 func (d *Downg) FetchArticle(item yuqueg.DocBookDetail) {
-	_, err := d.yuque.GetArticle(item.Slug)
+	doc, err := d.yuque.GetArticle(item.Slug)
 	if err != nil {
 		L.Error(err)
 		return
 	}
+	d.genPost(doc)
 	d.store.AddArticle(d.nameSpace, item.Slug, item)
 	L.Info("fetch article slug: ", item.Slug)
 }
@@ -81,4 +84,23 @@ func (d *Downg) fetchArticles() {
 //Save cache
 func (d *Downg) Save() {
 	d.store.WiteYuqueCache()
+}
+
+func (d *Downg) genPost(post yuqueg.DocDetail) {
+	data := post.Data
+	if len(data.Body) == 0 || len(data.Title) == 0 {
+		L.Error("invalid post:", data.Slug)
+		return
+	}
+	postPath, err := filepath.Abs(d.config.PostPath)
+	if err != nil {
+		L.Error(fmt.Sprintf("abs path err: slug:%s, postPath:%s", data.Slug, d.config.PostPath))
+		return
+	}
+	title, errStr := ReflectStrVal(data, d.config.MdFormat)
+	if errStr != nil || len(title) == 0 {
+		L.Error(fmt.Sprintf("empty title: slug:%s,%s", data.Slug, d.config.PostPath))
+		return
+	}
+	L.Info(postPath, title)
 }

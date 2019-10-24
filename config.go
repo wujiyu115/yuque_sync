@@ -25,11 +25,11 @@ var defaultConfig = SyncConfig{
 	Token:       "",
 	Login:       "",
 	Repo:        "",
-	PostPath:    "source/_posts/yuque",
+	PostPath:    "yuque",
 	CachePath:   "yuque.json",
-	MdFormat:    "title",
+	MdFormat:    "Title",
 	Concurrency: 5,
-	OnlyPub:     false,
+	OnlyPub:     true,
 }
 
 func loadJSON(cfg *SyncConfig) error {
