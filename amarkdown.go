@@ -4,6 +4,6 @@ import (
 	"github.com/wujiyu115/yuqueg"
 )
 
-AdapterMap.Set("markdown", func (post yuqueg.Doc){
+func GenMarkDown(post yuqueg.Doc) string{
 	return FormatRaw(post.Body)
-})
+}

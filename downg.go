@@ -103,7 +103,7 @@ func (d *Downg) genPost(post yuqueg.DocDetail) {
 		L.Error(fmt.Sprintf("empty title: slug:%s,mdFormat:%s", data.Slug, d.config.MdFormat))
 		return
 	}
-	fun := AdapterMap[d.config.Adapter]
+	fun := AMap.Get(d.config.Adapter)
 	if fun == nil {
 		L.Error(fmt.Sprintf("empty adapter: slug:%s, adapter:%s", data.Slug, d.config.Adapter))
 		return
@@ -114,15 +114,27 @@ func (d *Downg) genPost(post yuqueg.DocDetail) {
 		return
 	}
 	text := r[0].String()
+
+	merr := os.MkdirAll(postPath, os.ModePerm)
+	if merr != nil {
+		L.Error(merr)
+		return
+	}
 	postPath = filepath.Join(postPath, fmt.Sprintf("%s.md", title))
+	cerr := CreateFile(postPath)
+	if cerr != nil {
+		L.Error(cerr)
+		return
+	}
 	fp, err := os.OpenFile(postPath, os.O_RDWR|os.O_CREATE, 0755)
 	if err != nil {
 		L.Error(err)
+		return
 	}
 	defer fp.Close()
-	_, err := fp.Write(text)
+	_, err = fp.Write([]byte(text))
 	if err != nil {
 		L.Error(err)
 	}
-	L.Info(postPath, title, text)
+	L.Info(postPath)
 }
