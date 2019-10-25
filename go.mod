@@ -5,3 +5,5 @@ require (
 	github.com/wujiyu115/yuqueg v0.0.0-20191024162236-7e8f00148ec3
 	gopkg.in/yaml.v2 v2.2.4
 )
+
+go 1.13

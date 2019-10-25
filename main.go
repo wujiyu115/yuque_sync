@@ -1,7 +1,6 @@
 package main
 
-//DoAction do
-func DoAction() {
+func main() {
 	cfg := LoadConfig()
 	yuque := NewDowng(cfg)
 	yuque.fetchArticles()
