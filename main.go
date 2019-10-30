@@ -1,8 +1,11 @@
 package main
 
+import (
+	"github.com/wujiyu115/yuques/deal"
+)
+
 func main() {
-	cfg := LoadConfig()
-	yuque := NewDowng(cfg)
-	yuque.fetchArticles()
-	yuque.Save()
+	cfg := deal.LoadConfig()
+	y := deal.NewDowng(cfg)
+	y.DoSync()
 }

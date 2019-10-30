@@ -1,4 +1,4 @@
-package main
+package deal
 
 import (
 	"encoding/json"
@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/wujiyu115/yuqueg"
+	"github.com/wujiyu115/yuques/util"
 )
 
 //Store of doc
@@ -33,7 +34,7 @@ func NewStore(cachePath string) *Store {
 }
 
 func (s *Store) readYuqueCache() error {
-	cerr := CreateFile(s.CachePath)
+	cerr := util.CreateFile(s.CachePath)
 	if cerr != nil {
 		return cerr
 	}

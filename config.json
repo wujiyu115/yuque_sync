@@ -2,7 +2,7 @@
     "postPath": "yuque",
     "cachePath": "yuque.json",
     "mdFormat": "Title",
-    "token": "",
+    "token": "xxx",
     "login": "u22579",
     "repo": "xcd0mr",
     "adapter": "markdown",

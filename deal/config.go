@@ -1,7 +1,8 @@
-package main
+package deal
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 
@@ -19,7 +20,7 @@ type SyncConfig struct {
 	MdFormat    string `json:"mdFormat" yaml:"mdFormat"`
 	Concurrency int    `json:"concurrency" yaml:"concurrency"`
 	OnlyPub     bool   `json:"onlyPub" yaml:"onlyPub"`
-	Adapter     string  `json:"adapter" yaml:"adapter"`
+	Adapter     string `json:"adapter" yaml:"adapter"`
 }
 
 var defaultConfig = SyncConfig{
@@ -29,7 +30,7 @@ var defaultConfig = SyncConfig{
 	PostPath:    "yuque",
 	CachePath:   "yuque.json",
 	MdFormat:    "Title",
-	Adapter: 	"markdown",
+	Adapter:     "markdown",
 	Concurrency: 5,
 	OnlyPub:     true,
 }
@@ -64,4 +65,9 @@ func LoadConfig() SyncConfig {
 	}
 	copier.Copy(&defaultConfig, &cfg)
 	return defaultConfig
+}
+
+//GenNameSpace gen namespace
+func GenNameSpace(config SyncConfig) string {
+	return fmt.Sprintf("%s/%s", config.Login, config.Repo)
 }

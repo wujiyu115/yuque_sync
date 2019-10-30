@@ -1,18 +1,13 @@
-package main
+package util
 
 import (
+	"bytes"
+	"errors"
 	"fmt"
 	"os"
 	"reflect"
-	"errors"
-	"bytes"
 	"regexp"
 )
-
-//GenNameSpace gen namespace
-func GenNameSpace(config SyncConfig) string {
-	return fmt.Sprintf("%s/%s", config.Login, config.Repo)
-}
 
 //CreateFile create file
 func CreateFile(path string) error {
@@ -63,14 +58,15 @@ func ReflectStrVal(Iface interface{}, FieldName string) (string, error) {
 	ValueIface := reflect.ValueOf(Iface)
 	return ValueIface.FieldByName(FieldName).String(), nil
 }
-//Cal func
+
+//Call func
 func Call(m interface{}, params ...interface{}) ([]reflect.Value, error) {
 	f := reflect.ValueOf(m)
 	if f.Kind() != reflect.Func {
 		return nil, errors.New("funcInter is not func")
 	}
 	if len(params) != f.Type().NumIn() {
-		return nil, errors.New("the number of input params not match!")
+		return nil, errors.New("the number of input params not match")
 	}
 	in := make([]reflect.Value, len(params))
 	for k, v := range params {
@@ -79,6 +75,7 @@ func Call(m interface{}, params ...interface{}) ([]reflect.Value, error) {
 	return f.Call(in), nil
 }
 
+//FormatTags format tags
 func FormatTags(tags []string) string {
 	var buffer bytes.Buffer
 	buffer.WriteString("[")
@@ -94,8 +91,9 @@ func FormatTags(tags []string) string {
 	return buffer.String()
 }
 
-func FormatRaw(body string) string{
-	multiBr, _ := regexp.Compile("<div style=\"display:none\">[\\s\\S]*?<\\/div>");
+//FormatRaw format raw
+func FormatRaw(body string) string {
+	multiBr, _ := regexp.Compile("<div style=\"display:none\">[\\s\\S]*?<\\/div>")
 	hiddenContent, _ := regexp.Compile("(<br>){2}")
 	return hiddenContent.ReplaceAllString(multiBr.ReplaceAllString(body, ""), "<br/>")
 }

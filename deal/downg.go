@@ -1,12 +1,14 @@
-package main
+package deal
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"time"
-	"os"
 
 	"github.com/wujiyu115/yuqueg"
+	"github.com/wujiyu115/yuques/adapter"
+	"github.com/wujiyu115/yuques/util"
 )
 
 var (
@@ -98,17 +100,17 @@ func (d *Downg) genPost(post yuqueg.DocDetail) {
 		L.Error(fmt.Sprintf("abs path err: slug:%s, postPath:%s", data.Slug, d.config.PostPath))
 		return
 	}
-	title, errStr := ReflectStrVal(data, d.config.MdFormat)
+	title, errStr := util.ReflectStrVal(data, d.config.MdFormat)
 	if errStr != nil || len(title) == 0 {
 		L.Error(fmt.Sprintf("empty title: slug:%s,mdFormat:%s", data.Slug, d.config.MdFormat))
 		return
 	}
-	fun := AMap.Get(d.config.Adapter)
+	fun := adapter.AMap.Get(d.config.Adapter)
 	if fun == nil {
 		L.Error(fmt.Sprintf("empty adapter: slug:%s, adapter:%s", data.Slug, d.config.Adapter))
 		return
 	}
-	r, err1 := Call(fun, data)
+	r, err1 := util.Call(fun, data)
 	if err1 != nil {
 		L.Error(fmt.Sprintf("call adapter.fail: slug:%s, adapter:%s", data.Slug, d.config.Adapter))
 		return
@@ -121,7 +123,7 @@ func (d *Downg) genPost(post yuqueg.DocDetail) {
 		return
 	}
 	postPath = filepath.Join(postPath, fmt.Sprintf("%s.md", title))
-	cerr := CreateFile(postPath)
+	cerr := util.CreateFile(postPath)
 	if cerr != nil {
 		L.Error(cerr)
 		return
@@ -137,4 +139,10 @@ func (d *Downg) genPost(post yuqueg.DocDetail) {
 		L.Error(err)
 	}
 	L.Info(postPath)
+}
+
+//DoSync for downg
+func (d *Downg) DoSync() {
+	d.fetchArticles()
+	d.Save()
 }
