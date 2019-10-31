@@ -1,5 +1,9 @@
 # 语雀文档同步
 
+# 说明
+`front matter`解析来自[hugo](https://github.com/gohugoio/hugo/tree/master/parser),去除了`GRO`和`CSV`的支持,现在支持`YAML`,`JSON`,`TOML`
+
+
 配置支持`json`和`yaml`
 `json`配置示例:
 
@@ -35,5 +39,5 @@
 - [ ] hexo格式转换
 - [ ] hugo格式转换
 - [ ] 支持语雀多仓库同步到不同的分类
-- [ ] 解析front-matter
+- [X] 解析front-matter
 
