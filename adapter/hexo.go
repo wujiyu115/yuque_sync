@@ -13,25 +13,27 @@ import (
 
 const (
 	//MetaRegStr regex o meta data
-	MetaRegStr = "(title:|layout:|tags:|date:|categories:){1}(\\S|\\s)+?---"
+	MetaRegStr = "(---\n)?(title:|layout:|tags:|date:|categories:){1}(\\S|\\s)+?---"
 	//PostTemplate of post
-	// 	PostTemplate = `
-	// ---
-	// %s
-	// ---
-	// %s
-	// `
-	PostTemplate = "\n---\n%s\n---\n%s"
+	PostTemplate = "---\n%s\n---\n%s"
 )
 
 func parseMatter(meta string) string {
+	if meta == "" {
+		return meta
+	}
+	brReg, _ := regexp.Compile("(<br \\/>|<br>|<br\\/>)")
+	meta = brReg.ReplaceAllString(meta, "\n")
 	d := metadecoders.Default
-	m, _ := d.UnmarshalStringTo(meta, make(map[string]interface{}))
+	m, err := d.UnmarshalStringTo(meta, make(map[string]interface{}))
+	if err != nil {
+		L.Error("unmarshal unexpected error value: ", err)
+	}
 	var buf bytes.Buffer
 
-	err := parser.InterfaceToConfig(m, metadecoders.YAML, &buf)
+	err = parser.InterfaceToConfig(m, metadecoders.YAML, &buf)
 	if err != nil {
-		yuqueg.L.Error("unexpected error value: %v", err)
+		L.Error("unexpected error value:", err)
 		return ""
 	}
 	return buf.String()
